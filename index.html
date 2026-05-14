@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Nền tảng học trực tuyến hiện đại — khóa học chất lượng, lộ trình rõ ràng, học mọi lúc mọi nơi. Bắt đầu hành trình nâng cấp kỹ năng của bạn hôm nay."
+    />
+    <meta name="theme-color" content="#0f766e" />
+    <meta property="og:title" content="HọcViệt — Học trực tuyến thông minh" />
+    <meta
+      property="og:description"
+      content="Khóa học, bài giảng và tài nguyên học tập được thiết kế cho người Việt."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="vi_VN" />
+    <link rel="canonical" href="https://example.com/" />
+    <title>HọcViệt — Nền tảng học trực tuyến dành cho bạn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/pomodoro.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "HọcViệt",
+        "description": "Nền tảng học trực tuyến với khóa học và tài nguyên cho người học tiếng Việt.",
+        "url": "https://example.com/",
+        "inLanguage": "vi-VN",
+        "areaServed": "VN"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#noi-dung-chinh">Chuyển tới nội dung chính</a>
+
+    <div
+      class="welcome-backdrop"
+      id="welcome-backdrop"
+      role="presentation"
+      aria-hidden="true"
+      hidden
+    >
+      <div
+        class="welcome-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-title"
+        aria-describedby="welcome-desc"
+      >
+        <h2 id="welcome-title" class="welcome-modal__title">Chào mừng đến HọcViệt</h2>
+        <p id="welcome-desc" class="welcome-modal__desc">
+          Nhập tên hiển thị để cá nhân hóa trải nghiệm. Không cần mật khẩu — lưu trên trình duyệt của bạn (cookie 30 ngày).
+        </p>
+        <form id="welcome-form" novalidate>
+          <label class="welcome-modal__label" for="welcome-name">Tên hiển thị</label>
+          <input
+            id="welcome-name"
+            class="welcome-modal__input"
+            name="displayName"
+            type="text"
+            autocomplete="nickname"
+            maxlength="80"
+            placeholder="Ví dụ: Lan, Minh Anh…"
+            required
+          />
+          <p class="welcome-modal__error" id="welcome-error" aria-live="polite"></p>
+          <div class="welcome-modal__actions">
+            <button type="button" class="btn btn--ghost welcome-modal__cancel" id="welcome-cancel" hidden>
+              Hủy
+            </button>
+            <button type="submit" class="btn btn--primary welcome-modal__submit">Tiếp tục</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <header class="site-header" data-header>
+      <div class="container header__inner">
+        <a class="logo" href="#" aria-label="HọcViệt — Trang chủ">
+          <span class="logo__mark" aria-hidden="true"></span>
+          <span class="logo__text">Học<span>Việt</span></span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="menu-chinh"
+          data-nav-toggle
+        >
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="visually-hidden">Mở menu điều hướng</span>
+        </button>
+
+        <nav class="nav" id="menu-chinh" aria-label="Điều hướng chính" data-nav>
+          <ul class="nav__list">
+            <li><a href="community.html">Cộng đồng</a></li>
+          </ul>
+          <div class="nav-user" id="nav-user" hidden>
+            <span class="nav-user__greet" id="user-greeting-text" aria-live="polite"></span>
+            <button type="button" class="btn btn--ghost btn--sm" id="btn-doi-ten">Đổi tên</button>
+          </div>
+          <div class="nav__actions">
+            <a class="btn btn--ghost" href="login.html" id="nav-login">Đăng nhập</a>
+            <a class="btn btn--primary" href="login.html">Bắt đầu miễn phí</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 3000;"></div>
+
+    <main id="noi-dung-chinh">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow" data-reveal>Học theo nhịp của bạn</p>
+            <h1 id="hero-title" class="hero__title" data-reveal>
+              Nâng cấp kỹ năng với lộ trình rõ ràng — <em>trực quan, linh hoạt</em>
+            </h1>
+            <p class="hero__lead" data-reveal>
+              Khóa học được biên soạn kỹ, hỗ trợ tiếng Việt đầy đủ và thiết kế cho người bận rộn. Học nhanh hơn nhờ bài tập tương tác và phản hồi tức thì.
+            </p>
+            <div class="hero__cta" data-reveal>
+              <a class="btn btn--primary btn--lg" href="login.html">Bắt đầu ngay</a>
+              <a class="btn btn--outline btn--lg" href="#gioi-thieu">Xem giới thiệu</a>
+            </div>
+          </div>
+          <div class="hero__visual" aria-hidden="true" data-reveal>
+            <div class="hero-card hero-card--1">
+              <span class="hero-card__tag">Đang học</span>
+              <p class="hero-card__title">Thiết kế UX cho người mới</p>
+              <div class="hero-card__bar"><span style="width: 68%"></span></div>
+              <p class="hero-card__meta">Bài 12 / 18 · Còn 2 tuần</p>
+            </div>
+            <div class="hero-card hero-card--2">
+              <p class="hero-card__title">Ghi chú thông minh</p>
+              <ul class="hero-card__chips">
+                <li>Tóm tắt</li>
+                <li>Ôn tập</li>
+                <li>Quiz</li>
+              </ul>
+            </div>
+            <div class="hero-blob" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="section" id="gioi-thieu" aria-labelledby="features-title">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <h2 id="features-title" class="section__title">Trải nghiệm học được thiết kế cho sự tập trung</h2>
+            <p class="section__subtitle">
+              Giao diện sạch, nội dung dễ quét mắt và các điểm chạm rõ ràng — giúp bạn vào trạng thái học nhanh chóng.
+            </p>
+          </header>
+          <div class="feature-grid" id="loi-ich">
+            <article class="feature-card" data-reveal>
+              <div class="feature-card__icon" aria-hidden="true">◎</div>
+              <h3 class="feature-card__title">Lộ trình theo mục tiêu</h3>
+              <p>Chọn mục tiêu nghề nghiệp hoặc kỹ năng — hệ thống gợi ý khóa học và thứ tự học tối ưu.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <div class="feature-card__icon" aria-hidden="true">▶</div>
+              <h3 class="feature-card__title">Bài giảng ngắn, dễ tiêu hóa</h3>
+              <p>Mỗi phần kéo dài 8–15 phút, có phụ đề và tốc độ phát tùy chỉnh.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <div class="feature-card__icon" aria-hidden="true">✓</div>
+              <h3 class="feature-card__title">Thực hành có phản hồi</h3>
+              <p>Bài tập tương tác, kiểm tra nhanh và gợi ý cải thiện ngay trong bài.</p>
+            </article>
+            <article class="feature-card" data-reveal>
+              <div class="feature-card__icon" aria-hidden="true">◇</div>
+              <h3 class="feature-card__title">Học mọi thiết bị</h3>
+              <p>Đồng bộ tiến độ giữa điện thoại, máy tính bảng và trình duyệt.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--muted" id="khoa-hoc" aria-labelledby="courses-title">
+        <div class="container">
+          <header class="section__head section__head--row" data-reveal>
+            <div>
+              <h2 id="courses-title" class="section__title">Khóa học nổi bật</h2>
+              <p class="section__subtitle section__subtitle--tight">
+                Truy cập nhanh nội dung phổ biến — cập nhật theo xu hướng thị trường.
+              </p>
+            </div>
+            <a class="btn btn--ghost" href="#khoa-hoc">Xem tất cả</a>
+          </header>
+          <div class="course-grid">
+            <article class="course-card" data-reveal>
+              <div class="course-card__media" role="img" aria-label="Minh họa khóa lập trình web"></div>
+              <div class="course-card__body">
+                <span class="course-card__badge">Phổ biến</span>
+                <h3 class="course-card__title">Lập trình web hiện đại</h3>
+                <p>HTML, CSS, JavaScript và triển khai thực tế — phù hợp người mới có kiên nhẫn.</p>
+                <dl class="course-card__meta">
+                  <div><dt class="visually-hidden">Thời lượng</dt><dd>32 giờ</dd></div>
+                  <div><dt class="visually-hidden">Cấp độ</dt><dd>Cơ bản → Trung cấp</dd></div>
+                </dl>
+                <a class="course-card__link" href="#chi-tiet-web">Chi tiết khóa học <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+            <article class="course-card" data-reveal>
+              <div class="course-card__media course-card__media--b" role="img" aria-label="Minh họa khóa dữ liệu"></div>
+              <div class="course-card__body">
+                <span class="course-card__badge course-card__badge--alt">Mới</span>
+                <h3 class="course-card__title">Phân tích dữ liệu cho công việc</h3>
+                <p>Bảng tính, trực quan hóa và tư duy ra quyết định dựa trên số liệu.</p>
+                <dl class="course-card__meta">
+                  <div><dt class="visually-hidden">Thời lượng</dt><dd>24 giờ</dd></div>
+                  <div><dt class="visually-hidden">Cấp độ</dt><dd>Trung cấp</dd></div>
+                </dl>
+                <a class="course-card__link" href="#chi-tiet-data">Chi tiết khóa học <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+            <article class="course-card" data-reveal>
+              <div class="course-card__media course-card__media--c" role="img" aria-label="Minh họa khóa giao tiếp"></div>
+              <div class="course-card__body">
+                <span class="course-card__badge">Cộng đồng yêu thích</span>
+                <h3 class="course-card__title">Giao tiếp chuyên nghiệp</h3>
+                <p>Email, họp trực tuyến và thuyết trình — tự tin trong môi trường làm việc hỗn hợp.</p>
+                <dl class="course-card__meta">
+                  <div><dt class="visually-hidden">Thời lượng</dt><dd>10 giờ</dd></div>
+                  <div><dt class="visually-hidden">Cấp độ</dt><dd>Mọi cấp độ</dd></div>
+                </dl>
+                <a class="course-card__link" href="#chi-tiet-soft">Chi tiết khóa học <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section cta" aria-labelledby="cta-title">
+        <div class="container cta__inner" data-reveal>
+          <div class="cta__copy">
+            <h2 id="cta-title" class="cta__title">Sẵn sàng bắt đầu?</h2>
+            <p>Tạo tài khoản miễn phí trong một phút — truy cập bài học mẫu và cộng đồng hỗ trợ.</p>
+          </div>
+          <div class="cta__actions">
+            <a class="btn btn--light btn--lg" href="login.html">Đăng ký miễn phí</a>
+            <a class="btn btn--outline-light btn--lg" href="login.html">Đã có tài khoản</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="lien-he">
+      <div class="container footer__grid">
+        <div>
+          <a class="logo logo--footer" href="#" aria-label="HọcViệt — Trang chủ">
+            <span class="logo__mark" aria-hidden="true"></span>
+            <span class="logo__text">Học<span>Việt</span></span>
+          </a>
+          <p class="footer__about">
+            Nền tảng học trực tuyến với nội dung tiếng Việt chuẩn, tối ưu cho người học bận rộn.
+          </p>
+        </div>
+        <div>
+          <h2 class="footer__heading">Khám phá</h2>
+          <ul class="footer__links">
+            <li><a href="community.html">Kết nối cộng đồng</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__heading">Hỗ trợ</h2>
+          <ul class="footer__links">
+            <li><a href="#faq">Câu hỏi thường gặp</a></li>
+            <li><a href="#lien-he">Liên hệ</a></li>
+            <li><a href="#accessibility">Trợ năng</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer__heading">Bản tin</h2>
+          <p class="footer__news">Nhận mẹo học tập và ưu đãi (không spam).</p>
+          <form class="footer__form" action="#" method="get" aria-label="Đăng ký bản tin">
+            <label class="visually-hidden" for="email-news">Email</label>
+            <input
+              id="email-news"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@email.com"
+              class="footer__input"
+            />
+            <button type="submit" class="btn btn--primary">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+      <div class="container footer__bottom">
+        <p>© <span data-year></span> HọcViệt. Đã đăng ký bản quyền.</p>
+        <ul class="footer__legal">
+          <li><a href="#dieu-khoan">Điều khoản</a></li>
+          <li><a href="#rieng-tu">Quyền riêng tư</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/achievements-config.js" defer></script>
+    <script src="js/achievements-engine.js" defer></script>
+    <script src="js/pomodoro.js" defer></script>
+    <script>
+      // Toast notification helper
+      window.showToast = function(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `btn ${type === 'success' ? 'btn--primary' : 'btn--outline'}`;
+        toast.style.marginBottom = '10px';
+        toast.style.boxShadow = 'var(--shadow-md)';
+        toast.style.borderRadius = 'var(--radius)';
+        toast.textContent = message;
+        document.getElementById('toast-container').appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-10px)';
+          toast.style.transition = 'all 0.3s var(--ease-out)';
+          setTimeout(() => toast.remove(), 3000);
+        }, 4700);
+      };
+
+      // Track lesson reading on course card clicks
+      document.querySelectorAll('.course-card__link').forEach(link => {
+        link.addEventListener('click', function() {
+          const user = typeof getCurrentUser === 'function' ? getCurrentUser() : '';
+          if (user && window.AchievementEngine) {
+            window.AchievementEngine.trackLessonRead(user);
+            window.showToast("Đã ghi nhận bạn vừa đọc bài học này!", "success");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

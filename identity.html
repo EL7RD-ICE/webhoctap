@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Định danh — Tên &amp; Cookie</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --card: #fff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --accent: #4f46e5;
+        --accent-hover: #4338ca;
+        --radius: 12px;
+        --radius-lg: 24px;
+        --shadow: 0 10px 40px rgba(79, 70, 229, 0.1);
+        font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .backdrop {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at top right, #e0e7ff, transparent 40%),
+                    radial-gradient(circle at bottom left, #ffedd5, transparent 40%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        z-index: 100;
+      }
+
+      .backdrop[hidden] {
+        display: none;
+      }
+
+      .modal {
+        width: 100%;
+        max-width: 440px;
+        background: var(--card);
+        border-radius: var(--radius-lg);
+        padding: 3rem 2.5rem;
+        box-shadow: var(--shadow);
+        border: 1px solid #e2e8f0;
+      }
+
+      .modal h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .modal > p {
+        margin: 0 0 2rem;
+        font-size: 1rem;
+        color: var(--muted);
+      }
+
+      label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 0.85rem 1.15rem;
+        border: 1px solid #e2e8f0;
+        border-radius: var(--radius);
+        font: inherit;
+        margin-bottom: 0.25rem;
+        background: #fcfdfe;
+        transition: all 0.2s;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+      }
+
+      .error {
+        color: #ef4444;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        min-height: 1.25rem;
+        font-weight: 500;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        padding: 0.85rem 1.15rem;
+        border: none;
+        border-radius: var(--radius);
+        background: var(--accent);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      }
+
+      button[type="submit"]:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+      }
+
+      .hint {
+        margin: 1rem 0 0;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      code {
+        font-size: 0.78em;
+        background: #eef1f7;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+    </style>
+    <!-- Firebase compat (vanilla, không cần bundler) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  </head>
+  <body>
+    <div
+      class="backdrop"
+      id="welcome-backdrop"
+      role="presentation"
+      aria-hidden="true"
+    >
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welcome-title"
+        aria-describedby="welcome-desc"
+      >
+        <h2 id="welcome-title">Chào bạn</h2>
+        <p id="welcome-desc">Nhập tên hiển thị để tiếp tục. Không cần mật khẩu — chỉ lưu trên trình duyệt của bạn (cookie 30 ngày).</p>
+        <form id="name-form" novalidate>
+          <label for="display-name">Tên hiển thị</label>
+          <input
+            id="display-name"
+            name="displayName"
+            type="text"
+            autocomplete="nickname"
+            maxlength="80"
+            placeholder="Ví dụ: Lan, Minh Anh…"
+            required
+          />
+          <p class="error" id="name-error" aria-live="polite"></p>
+          <button type="submit">Tiếp tục</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="panel">
+        <h1>Ứng dụng mẫu</h1>
+        <p>Định danh tối giản bằng cookie <code>userName</code>. Dùng <code>getCurrentUser()</code> khi ghi Firestore.</p>
+        <p id="greeting" aria-live="polite"></p>
+        <p class="hint">
+          Ví dụ ghi Firestore sau này: <code>createdBy: getCurrentUser()</code> hoặc <code>author: getCurrentUser()</code>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /** Thời hạn cookie: 30 ngày (giây) */
+        var USER_NAME_MAX_AGE = 60 * 60 * 24 * 30;
+        var COOKIE_NAME = "userName";
+
+        /**
+         * Ghi cookie userName, path=/, 30 ngày.
+         * @param {string} rawName
+         */
+        function setUserNameCookie(rawName) {
+          var name = String(rawName || "").trim();
+          if (!name) return;
+          var encoded = encodeURIComponent(name);
+          document.cookie =
+            COOKIE_NAME +
+            "=" +
+            encoded +
+            "; max-age=" +
+            USER_NAME_MAX_AGE +
+            "; path=/; SameSite=Lax";
+        }
+
+        /**
+         * Đọc và trả về giá trị cookie userName (chuỗi rỗng nếu không có).
+         * @returns {string}
+         */
+        function getUserName() {
+          var parts = document.cookie.split(";");
+          for (var i = 0; i < parts.length; i++) {
+            var p = parts[i].trim();
+            if (p.indexOf(COOKIE_NAME + "=") === 0) {
+              try {
+                return decodeURIComponent(p.substring(COOKIE_NAME.length + 1));
+              } catch (e) {
+                return p.substring(COOKIE_NAME.length + 1);
+              }
+            }
+          }
+          return "";
+        }
+
+        /**
+         * Dùng cho Firestore: mọi thao tác ghi nên kèm createdBy / author từ đây.
+         * @returns {string}
+         */
+        function getCurrentUser() {
+          return getUserName();
+        }
+
+        /*
+         * Ví dụ ghi Firestore (compat SDK), sau khi đã cấu hình firebaseConfig và db khác null:
+         *
+         * db.collection("de_thi").add({
+         *   tieuDe: "Đề mẫu",
+         *   createdBy: getCurrentUser()
+         * });
+         *
+         * db.collection("tin_nhan").add({
+         *   noiDung: "Xin chào",
+         *   author: getCurrentUser()
+         * });
+         */
+
+        // ——— Firebase (thay bằng cấu hình dự án của bạn) ———
+        var firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_PROJECT.firebaseapp.com",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_PROJECT.appspot.com",
+          messagingSenderId: "000000000000",
+          appId: "1:000000000000:web:xxxxxxxxxxxx"
+        };
+
+        /** Firestore instance (null nếu chưa cấu hình) */
+        var db = null;
+
+        if (
+          firebaseConfig.apiKey &&
+          firebaseConfig.apiKey !== "YOUR_API_KEY" &&
+          typeof firebase !== "undefined"
+        ) {
+          try {
+            if (!firebase.apps.length) {
+              firebase.initializeApp(firebaseConfig);
+            }
+            db = firebase.firestore();
+          } catch (err) {
+            console.warn("Firebase chưa khởi tạo được:", err);
+          }
+        }
+
+        // Cho script khác / console thử nghiệm
+        window.getUserName = getUserName;
+        window.getCurrentUser = getCurrentUser;
+        window.__firestoreDb = db;
+
+        var backdrop = document.getElementById("welcome-backdrop");
+        var form = document.getElementById("name-form");
+        var input = document.getElementById("display-name");
+        var errEl = document.getElementById("name-error");
+        var greeting = document.getElementById("greeting");
+
+        function showModal(show) {
+          if (!backdrop) return;
+          backdrop.hidden = !show;
+          backdrop.setAttribute("aria-hidden", show ? "false" : "true");
+          if (show && input) {
+            input.focus();
+          }
+        }
+
+        function renderGreeting(displayName) {
+          if (!greeting) return;
+          if (displayName) {
+            greeting.innerHTML = 'Xin chào, <span>' + escapeHtml(displayName) + "</span>";
+          } else {
+            greeting.textContent = "";
+          }
+        }
+
+        function escapeHtml(s) {
+          var d = document.createElement("div");
+          d.textContent = s;
+          return d.innerHTML;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          var existing = getUserName();
+          if (existing) {
+            showModal(false);
+            renderGreeting(existing);
+          } else {
+            showModal(true);
+            renderGreeting("");
+          }
+        });
+
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            if (errEl) errEl.textContent = "";
+            var v = input ? input.value.trim() : "";
+            if (!v) {
+              if (errEl) errEl.textContent = "Vui lòng nhập tên hiển thị.";
+              return;
+            }
+            setUserNameCookie(v);
+            showModal(false);
+            renderGreeting(getUserName());
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
