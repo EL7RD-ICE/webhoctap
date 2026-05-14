@@ -3,7 +3,7 @@ import {
   ArrowLeft,
   Bell
 } from 'lucide-react';
-import KnowledgeSharingApp from './KnowledgeSharingApp';
+import KnowledgeSharingApp from './KnowledgeSharingApp.tsx';
 
 export default function CommunityHubApp() {
   return (

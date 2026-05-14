@@ -58,7 +58,21 @@ export default function KnowledgeSharingApp({ isNested = false }: { isNested?: b
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      setPosts(JSON.parse(saved));
+      try {
+        const parsedPosts = JSON.parse(saved);
+        // Ensure that posts have basic valid structure
+        const safePosts = Array.isArray(parsedPosts) ? parsedPosts.map(p => ({
+          ...p,
+          tags: Array.isArray(p.tags) ? p.tags : [],
+          content: p.content || '',
+          title: p.title || '',
+          likes: p.likes || 0,
+        })) : INITIAL_POSTS;
+        setPosts(safePosts);
+      } catch (e) {
+        setPosts(INITIAL_POSTS);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_POSTS));
+      }
     } else {
       setPosts(INITIAL_POSTS);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_POSTS));
@@ -74,19 +88,19 @@ export default function KnowledgeSharingApp({ isNested = false }: { isNested?: b
 
   const allTags = useMemo(() => {
     const tags = new Set<string>();
-    posts.forEach(p => p.tags.forEach(t => tags.add(t)));
+    posts.forEach(p => (p.tags || []).forEach(t => tags.add(t)));
     return Array.from(tags);
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
     return posts
       .filter(p => {
-        const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                             p.content.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesTag = !activeTag || p.tags.includes(activeTag);
+        const matchesSearch = (p.title || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                             (p.content || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesTag = !activeTag || (p.tags || []).includes(activeTag);
         return matchesSearch && matchesTag;
       })
-      .sort((a, b) => b.createdAt - a.createdAt);
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   }, [posts, searchTerm, activeTag]);
 
   const handleCreate = (e: React.FormEvent) => {
@@ -222,7 +236,7 @@ export default function KnowledgeSharingApp({ isNested = false }: { isNested?: b
                       className="group bg-white p-6 rounded-2xl border border-slate-200 hover:border-teal-500 hover:shadow-xl hover:shadow-teal-900/5 transition-all cursor-pointer flex flex-col h-full"
                     >
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {post.tags.map(t => (
+                        {(post.tags || []).map(t => (
                           <span key={t} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded uppercase tracking-wider">
                             {t}
                           </span>
@@ -232,7 +246,7 @@ export default function KnowledgeSharingApp({ isNested = false }: { isNested?: b
                         {post.title}
                       </h3>
                       <p className="text-slate-600 text-sm line-clamp-3 mb-6 flex-grow">
-                        {post.content.replace(/[#*`]/g, '')}
+                        {(post.content || '').replace(/[#*`]/g, '')}
                       </p>
                       <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
                         <div className="flex items-center gap-2 text-xs text-slate-400">
@@ -360,7 +374,7 @@ export default function KnowledgeSharingApp({ isNested = false }: { isNested?: b
                 {/* Single detail view header */}
                 <div className="p-8 md:p-12 border-b border-slate-100">
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {selectedPost.tags.map(t => (
+                    {(selectedPost.tags || []).map(t => (
                       <span key={t} className="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-bold rounded-full uppercase tracking-wider">
                         {t}
                       </span>
