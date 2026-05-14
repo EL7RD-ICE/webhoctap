@@ -1,20 +1,45 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# HọcViệt - Nền tảng Học tập Thông minh
 
-# Run and deploy your AI Studio app
+Ứng dụng hỗ trợ học tập với các công cụ Pomodoro, Chia sẻ kiến thức và Quản lý thành tích.
 
-This contains everything you need to run your app locally.
+## Hướng dẫn sử dụng sau khi Export lên GitHub
 
-View your app in AI Studio: https://ai.studio/apps/7c5a166b-41ea-4896-a4a9-9338e76155ff
+Để chạy ứng dụng này trên môi trường local hoặc deploy lên các nền tảng (GitHub Pages, Vercel, Netlify), bạn cần thực hiện các bước sau:
 
-## Run Locally
+### 1. Cài đặt môi trường
+Đảm bảo bạn đã cài đặt [Node.js](https://nodejs.org/) (phiên bản 18 trở lên).
 
-**Prerequisites:**  Node.js
+### 2. Cài đặt Dependencies
+Mở terminal tại thư mục gốc của project và chạy:
+```bash
+npm install
+```
 
+### 3. Cấu hình Biến môi trường
+Tạo file `.env` dựa trên `.env.example`:
+```bash
+cp .env.example .env
+```
+Sau đó điền `GEMINI_API_KEY` của bạn vào file `.env`.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 4. Chạy ở chế độ Phát triển (Development)
+```bash
+npm run dev
+```
+Ứng dụng sẽ chạy tại `http://localhost:3000`.
+
+### 5. Build cho Sản xuất (Production)
+```bash
+npm run build
+```
+Các file tĩnh sẽ được tạo trong thư mục `dist/`. Bạn có thể upload thư mục này lên bất kỳ static hosting nào.
+
+## Công nghệ sử dụng
+- **Vite**: Công cụ build siêu nhanh.
+- **React 19**: Cho các module ứng dụng phức tạp.
+- **Tailwind CSS**: Thiết kế giao diện hiện đại.
+- **Firebase**: Lưu trữ dữ liệu và thành tích (Dùng SDK compat để tương thích đa nền tảng).
+- **Lucide React**: Bộ icon tinh tế.
+
+## Lưu ý về GitHub Pages
+Project này đã tích hợp sẵn GitHub Actions. Khi bạn push code lên branch `main`, ứng dụng sẽ tự động được build và deploy lên GitHub Pages (nếu bạn đã bật tính năng này trong Settings của Repo).
