@@ -3,31 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Định danh — Tên &amp; Cookie</title>
+    <title>Định danh — HọcViệt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
     <style>
-      :root {
-        --bg: #f8fafc;
-        --card: #fff;
-        --text: #0f172a;
-        --muted: #64748b;
-        --accent: #4f46e5;
-        --accent-hover: #4338ca;
-        --radius: 12px;
-        --radius-lg: 24px;
-        --shadow: 0 10px 40px rgba(79, 70, 229, 0.1);
-        font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
       body {
         margin: 0;
         min-height: 100vh;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.6;
+        background: var(--surface-muted);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -36,13 +21,14 @@
       .backdrop {
         position: fixed;
         inset: 0;
-        background: radial-gradient(circle at top right, #e0e7ff, transparent 40%),
-                    radial-gradient(circle at bottom left, #ffedd5, transparent 40%);
+        background: radial-gradient(circle at top right, var(--brand-soft), transparent 40%),
+                    radial-gradient(circle at bottom left, var(--accent-soft), transparent 40%);
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1.5rem;
         z-index: 100;
+        backdrop-filter: blur(4px);
       }
 
       .backdrop[hidden] {
@@ -52,11 +38,11 @@
       .modal {
         width: 100%;
         max-width: 440px;
-        background: var(--card);
+        background: var(--surface);
         border-radius: var(--radius-lg);
         padding: 3rem 2.5rem;
-        box-shadow: var(--shadow);
-        border: 1px solid #e2e8f0;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--line);
       }
 
       .modal h2 {
@@ -64,12 +50,13 @@
         font-size: 1.75rem;
         font-weight: 800;
         letter-spacing: -0.02em;
+        color: var(--ink);
       }
 
       .modal > p {
         margin: 0 0 2rem;
         font-size: 1rem;
-        color: var(--muted);
+        color: var(--ink-muted);
       }
 
       label {
@@ -77,13 +64,13 @@
         font-size: 0.85rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        color: var(--text);
+        color: var(--ink);
       }
 
       input[type="text"] {
         width: 100%;
         padding: 0.85rem 1.15rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--line);
         border-radius: var(--radius);
         font: inherit;
         margin-bottom: 0.25rem;
@@ -93,8 +80,8 @@
 
       input[type="text"]:focus {
         outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        border-color: var(--brand);
+        box-shadow: 0 0 0 4px var(--brand-soft);
       }
 
       .error {
@@ -104,38 +91,38 @@
         min-height: 1.25rem;
         font-weight: 500;
       }
-
       button[type="submit"] {
         width: 100%;
         padding: 0.85rem 1.15rem;
         border: none;
         border-radius: var(--radius);
-        background: var(--accent);
+        background: var(--brand);
         color: #fff;
         font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
         transition: all 0.2s;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
       }
 
       button[type="submit"]:hover {
-        background: var(--accent-hover);
+        background: var(--brand-dark);
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+        box-shadow: var(--shadow-md);
       }
 
       .hint {
         margin: 1rem 0 0;
         font-size: 0.8rem;
-        color: var(--muted);
+        color: var(--ink-muted);
       }
 
       code {
         font-size: 0.78em;
-        background: #eef1f7;
+        background: var(--brand-soft);
         padding: 0.1em 0.35em;
         border-radius: 4px;
+        color: var(--brand);
       }
     </style>
     <!-- Firebase compat (vanilla, không cần bundler) -->
