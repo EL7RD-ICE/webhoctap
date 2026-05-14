@@ -59,12 +59,7 @@
         </a>
 
         <!-- Pomodoro Sidebar Section -->
-        <div class="sidebar__pomodoro" id="sidebar-pomodoro-container" style="margin-top: 24px; padding: 0 16px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
-            Công cụ tập trung
-          </div>
-          <!-- Pomodoro App will mount here or stay as widget -->
-        </div>
+        <!-- Moved to floating widget for better visibility -->
       </nav>
 
       <div class="sidebar__footer">
@@ -97,6 +92,12 @@
           <div class="feature-card__icon" style="font-size: 32px; margin-bottom: 24px; background: var(--brand-soft); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; color: var(--brand);">👥</div>
           <h3 class="feature-card__title" style="font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 12px;">Kết nối Cộng đồng</h3>
           <p class="feature-card__desc" style="color: var(--ink-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Thảo luận trực tiếp, chia sẻ kiến thức và mẹo học tập cùng các học viên khác.</p>
+        </a>
+
+        <a href="#" class="feature-card card card--hover" onclick="event.preventDefault(); document.getElementById('pomodoro-widget')?.classList.remove('pomodoro-widget--minimized');">
+          <div class="feature-card__icon" style="font-size: 32px; margin-bottom: 24px; background: #fef3c7; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; color: #f59e0b;">⏳</div>
+          <h3 class="feature-card__title" style="font-size: 1.35rem; font-weight: 700; color: var(--ink); margin-bottom: 12px;">Đồng Hồ Pomodoro</h3>
+          <p class="feature-card__desc" style="color: var(--ink-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Quản lý thời gian, tăng cường sự tập trung với phương pháp học tập hiệu quả.</p>
         </a>
       </div>
     </main>
