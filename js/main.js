@@ -229,7 +229,7 @@
     if (existing) {
       applyUserUi(existing);
       // Optional: Auto redirect to lobby if on index.html and logged in
-      if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
+      if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
         // We can either redirect or just show the "Go to Lobby" button
         const heroCta = document.querySelector('.hero__cta');
         if (heroCta) {
