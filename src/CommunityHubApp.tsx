@@ -13,7 +13,7 @@ export default function CommunityHubApp() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
-              <a href="/lobby.html" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
+              <a href="lobby.html" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
                 <ArrowLeft size={20} />
               </a>
               <div className="flex items-center gap-2">
